@@ -6,6 +6,8 @@ services:
     container_name: markeable-backend
     ports:
       - "8000:8000"
+        env_file:
+      - .env  # Ensures the .env file is loaded into the contain
     environment:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
