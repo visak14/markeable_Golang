@@ -1,0 +1,41 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+main
+
+# Output directories for compiled Go binaries
+bin/
+pkg/
+
+# Go build cache
+go-build/
+
+# Output of `go test`
+*.out
+
+# Log files
+*.log
+
+# Environment variables
+.env
+
+# Database files (if you have local SQLite or similar)
+*.db
+*.sql
+
+# Docker files and overrides
+docker-compose.override.yml
+**/Dockerfile.*
+
+# IDE and editor settings
+.vscode/
+.idea/
+*.swp
+
+# macOS specific files
+.DS_Store
+
+# GitHub Actions
+.github/workflows/*

@@ -1,0 +1,409 @@
+definitions:
+  models.Patient:
+    properties:
+      age:
+        type: integer
+      doctor_id:
+        type: integer
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+    type: object
+  models.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        items:
+          type: integer
+        type: array
+      role:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Tis is a simple medical field.
+  termsOfService: http://swagger.io/terms/
+  title: doctor patient site
+  version: "1.0"
+paths:
+  /doctor/patient:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint allows a doctor to create a new patient record by
+        providing details like first name, last name, age, doctor_id, etc.
+      parameters:
+      - description: Patient data
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/models.Patient'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully created patient
+          schema:
+            $ref: '#/definitions/models.Patient'
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new patient record (Doctor Role)
+      tags:
+      - Patients
+  /doctor/patient/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This endpoint allows a doctor to delete a patient record by providing
+        the patient's ID in the URL.
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully deleted patient
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Patient not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a patient record by ID (Doctor Role)
+      tags:
+      - Patients
+    put:
+      consumes:
+      - application/json
+      description: This endpoint allows a doctor to update an existing patient record.
+        You need to provide the patient's ID in the URL and the new details in the
+        request body.
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated patient data
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/models.Patient'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully updated patient
+          schema:
+            $ref: '#/definitions/models.Patient'
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Patient not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update an existing patient record by ID (Doctor Role)
+      tags:
+      - Patients
+  /doctor/patients:
+    get:
+      consumes:
+      - application/json
+      description: This endpoint retrieves all patient records from the database and
+        returns them as a JSON array. This operation does not require authentication.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved all patients
+          schema:
+            items:
+              $ref: '#/definitions/models.Patient'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Retrieve a list of all patients
+      tags:
+      - Patients
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint allows a user to log in by providing their email
+        and password. If the credentials are correct, a JWT token is generated and
+        sent as a cookie in the response.
+      parameters:
+      - description: User login credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          additionalProperties:
+            type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Login successful, JWT token set in cookie
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Incorrect password
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: User not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Log in a user using email and password
+      tags:
+      - Login
+  /receptionist/patient:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint allows the creation of a new patient record by providing
+        details like first name, last name, email, phone number, etc.
+      parameters:
+      - description: Patient data
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/models.Patient'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully created patient
+          schema:
+            $ref: '#/definitions/models.Patient'
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new patient record
+      tags:
+      - Patients
+  /receptionist/patient/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This endpoint allows you to delete a patient record by providing
+        the patient's ID in the URL.
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully deleted patient
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Patient not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a patient record by ID
+      tags:
+      - Patients
+    put:
+      consumes:
+      - application/json
+      description: This endpoint allows you to update an existing patient record.
+        You need to provide the patient's ID in the URL and the new details in the
+        request body.
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated patient data
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/models.Patient'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully updated patient
+          schema:
+            $ref: '#/definitions/models.Patient'
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Patient not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update an existing patient record by ID
+      tags:
+      - Patients
+  /receptionist/patients:
+    get:
+      consumes:
+      - application/json
+      description: This endpoint retrieves all patient records from the database and
+        returns them as a JSON array.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved all patients
+          schema:
+            items:
+              $ref: '#/definitions/models.Patient'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all patient records
+      tags:
+      - Patients
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint allows you to register a new user by providing their
+        username, email, password, and role. The password is hashed before storing
+        it in the database.
+      parameters:
+      - description: User registration details
+        in: body
+        name: user
+        required: true
+        schema:
+          additionalProperties:
+            type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully created user
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: Email already exists
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Register a new user by provided data (username, email, password, role)
+      tags:
+      - Register
+swagger: "2.0"
